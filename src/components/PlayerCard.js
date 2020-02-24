@@ -8,7 +8,7 @@ class PlayerCard extends React.Component {
 
     componentDidMount() {
         this.props.getPlayers();
-        this.props.getStats(Math.floor(Math.random() * 100));
+        // this.props.getStats(Math.floor(Math.random() * 100));
     }
 
     renderPlayers() {
@@ -42,11 +42,17 @@ class PlayerCard extends React.Component {
         }
     }
 
-    onSearch = async e => {
+    onSearch = e => {
+        try {
         e.preventDefault();
-        const id = await this.props.getPlayer(e.target.value);
+        const id = this.props.getPlayer(e.target.value);
+
+        this.props.getStats(id);
         console.log(id);
-        
+        } catch (err) {
+            return err;
+        }
+
     };
 
 
@@ -83,7 +89,7 @@ class PlayerCard extends React.Component {
 const mapStatetoProps = (state) => {
     return { 
         players: Object.values(state.players),
-        stats: Object.values(state.stats)
+        stats: state.stats
     }
 }
 
