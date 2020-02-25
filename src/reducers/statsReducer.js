@@ -1,11 +1,12 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 import { GET_STATS } from '../actions/types';
 
 
-export default (state = {}, action) => {
+export default (state = [], action) => {
     switch (action.type) {
         case GET_STATS:
-            return { ..._.mapKeys(action.payload.data, 'player.first_name') };
+            // return { ..._.mapKeys(action.payload.data, 'player.id') };
+            return action.payload.data ;
         default:
             return state;
     }

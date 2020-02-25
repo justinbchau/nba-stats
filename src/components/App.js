@@ -3,7 +3,7 @@ import PlayerCard from './PlayerCard';
 
 const App = () => {
     return (
-        <div>
+        <div className="ui container">
             <PlayerCard />
         </div>
     )
