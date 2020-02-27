@@ -1,9 +1,9 @@
 // import _ from 'lodash';
-import { GET_STATS } from "../actions/types";
+import { GET_AVG } from "../actions/types";
 
-export default (state = [], action) => {
+export default (state = {}, action) => {
   switch (action.type) {
-    case GET_STATS:
+    case GET_AVG:
       return action.payload.data;
     default:
       return state;
