@@ -1,7 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getPlayers, getPlayer, getStats, getAverage } from "../actions";
+import {
+  getPlayers,
+  getPlayer,
+  getStats,
+  getAverage,
+  getPlayerStat
+} from "../actions";
 
 // import Modal from "./Modal";
 import PlayerSearch from "./PlayerSearch";
@@ -9,7 +15,8 @@ import PlayerSearch from "./PlayerSearch";
 class PlayerCard extends React.Component {
   componentDidMount() {
     this.props.getStats();
-    this.props.getPlayers();
+
+    // this.props.getPlayers();
   }
 
   //Loops through Stats Object and lists out players and their stats into a card
@@ -42,9 +49,10 @@ class PlayerCard extends React.Component {
     });
   };
 
+  //onClick will update the state with the targeted player with their playerId
   showStats = stat => {
     this.props.getAverage(stat);
-    this.props.getPlayer(stat);
+    this.props.getPlayerStat(stat);
   };
 
   //Returns the Player based off given name in the input
@@ -62,12 +70,13 @@ class PlayerCard extends React.Component {
   };
 
   render() {
+    console.log(this.props.average);
     if (!this.props.stats) {
       return (
-        <div class="ui container">
+        <div className="ui container">
           <p></p>
-          <div class="ui active dimmer">
-            <div class="ui loader"></div>
+          <div className="ui active dimmer">
+            <div className="ui loader"></div>
           </div>
         </div>
       );
@@ -107,5 +116,6 @@ export default connect(mapStatetoProps, {
   getPlayers,
   getPlayer,
   getStats,
-  getAverage
+  getAverage,
+  getPlayerStat
 })(PlayerCard);

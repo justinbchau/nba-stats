@@ -3,20 +3,32 @@ import { connect } from "react-redux";
 // import { Link } from "react-router-dom";
 import Modal from "./Modal";
 import history from "../history";
-import { getAverage, getStats, getPlayer } from "../actions";
+import { getAverage, getStats, getPlayerStat } from "../actions";
 
 class PlayerStats extends React.Component {
   componentDidMount() {
-    console.log(this.props.match);
+    console.log(this.props);
     this.props.getAverage(this.props.match.params.id);
-    this.props.getPlayer(this.props.match.params.id);
+    this.props.getPlayerStat(this.props.match.params.id);
   }
 
-  renderTitle() {
-    return this.props.players.map(player => player.first_name);
-  }
+  renderTitle = () => {
+    return this.props.stats.avg.forEach(stat => {
+      return <div>{stat.first_name}</div>;
+    });
+  };
 
   render() {
+    if (!this.props.average) {
+      return (
+        <div className="ui container">
+          <p></p>
+          <div className="ui active dimmer">
+            <div className="ui loader"></div>
+          </div>
+        </div>
+      );
+    }
     return (
       <Modal title={this.renderTitle()} onDismiss={() => history.push("/")} />
     );
@@ -25,12 +37,13 @@ class PlayerStats extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    average: Object.values(state.average[ownProps.match.params.id]),
-    stats: state.stats[ownProps.match.params.id],
-    players: state.players[ownProps.match.params.id]
+    average: state.average,
+    stats: state.stats
   };
 };
 
-export default connect(mapStateToProps, { getAverage, getStats, getPlayer })(
-  PlayerStats
-);
+export default connect(mapStateToProps, {
+  getAverage,
+  getStats,
+  getPlayerStat
+})(PlayerStats);

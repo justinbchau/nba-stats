@@ -1,5 +1,11 @@
 import nba from "../apis/nba";
-import { GET_PLAYER, GET_PLAYERS, GET_STATS, GET_AVG } from "./types";
+import {
+  GET_PLAYER,
+  GET_PLAYERS,
+  GET_STATS,
+  GET_AVG,
+  GET_PLAYER_STAT
+} from "./types";
 
 export const getPlayers = playerId => async dispatch => {
   const response = await nba.get(
@@ -15,10 +21,16 @@ export const getPlayer = playerId => async dispatch => {
   dispatch({ type: GET_PLAYER, payload: response.data });
 };
 
-export const getStats = (playerName = "") => async dispatch => {
-  const response = await nba.get(`/stats${playerName}`);
+export const getStats = () => async dispatch => {
+  const response = await nba.get(`/stats`);
 
   dispatch({ type: GET_STATS, payload: response.data });
+};
+
+export const getPlayerStat = playerId => async dispatch => {
+  const response = await nba.get(`/stats?player_ids[]=${playerId}`);
+
+  dispatch({ type: GET_PLAYER_STAT, payload: response.data });
 };
 
 export const getAverage = playerId => async dispatch => {
