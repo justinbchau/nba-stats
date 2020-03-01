@@ -12,11 +12,11 @@ class PlayerStats extends React.Component {
     this.props.getPlayerStat(this.props.match.params.id);
   }
 
-  renderTitle = () => {
-    return this.props.stats.avg.forEach(stat => {
-      return <div>{stat.first_name}</div>;
-    });
-  };
+  // renderTitle = () => {
+  //   return this.props.stats.avg.map(stat => {
+  //     return <div>{stat.first_name}</div>;
+  //   });
+  // };
 
   render() {
     if (!this.props.average) {
@@ -30,7 +30,7 @@ class PlayerStats extends React.Component {
       );
     }
     return (
-      <Modal title={this.renderTitle()} onDismiss={() => history.push("/")} />
+      <Modal title={this.props.stats} onDismiss={() => history.push("/")} />
     );
   }
 }
