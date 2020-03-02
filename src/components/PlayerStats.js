@@ -12,11 +12,38 @@ class PlayerStats extends React.Component {
     this.props.getPlayerStat(this.props.match.params.id);
   }
 
-  // renderTitle = () => {
-  //   return this.props.stats.avg.map(stat => {
-  //     return <div>{stat.first_name}</div>;
-  //   });
-  // };
+  // Potentially think about using the componentDidUnmount lifecycle method to help destroy the piece of state as we click on more players
+  renderTitle = () => {
+    if (!this.props.player) {
+      return "...Loading";
+    } else {
+      return (
+        <div>
+          {this.props.player.first_name} {this.props.player.last_name} |{" "}
+          {this.props.player.position}
+        </div>
+      );
+    }
+  };
+
+  renderContent = () => {
+    if (!this.props.player) {
+      return "Loading Stats";
+    } else {
+      return this.props.average.map(avg => {
+        return (
+          <div key={avg.player_id}>
+            <span>MIN: {avg.min} </span> | <span>GP: {avg.games_played}</span> |{" "}
+            <span>PTS: {avg.pts}</span> | <span>FGM: {avg.fgm}</span> |{" "}
+            <span>FGA: {avg.fga}</span> | <span>FG%: {avg.fg_pct}</span> |{" "}
+            <span> 3PM: {avg.fg3m}</span> | <span>3PA: {avg.fg3a}</span> |{" "}
+            <span>3P%: {avg.fg3_pct}</span> | <span>FTM: {avg.ftm}</span> |{" "}
+            <span>FTA: {avg.fta}</span> | <span>FT%: {avg.ft_pct}</span>
+          </div>
+        );
+      });
+    }
+  };
 
   render() {
     if (!this.props.average) {
@@ -29,8 +56,13 @@ class PlayerStats extends React.Component {
         </div>
       );
     }
+
     return (
-      <Modal title={this.props.stats} onDismiss={() => history.push("/")} />
+      <Modal
+        title={this.renderTitle()}
+        onDismiss={() => history.push("/")}
+        content={this.renderContent()}
+      />
     );
   }
 }
@@ -38,7 +70,8 @@ class PlayerStats extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     average: state.average,
-    stats: state.stats
+    stats: state.stats,
+    player: state.players[ownProps.match.params.id]
   };
 };
 

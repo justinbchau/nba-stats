@@ -1,12 +1,15 @@
-import _ from "lodash";
-import { GET_PLAYER, GET_PLAYERS } from "../actions/types";
+
+import { GET_PLAYER_STAT } from "../actions/types";
 
 export default (state = [], action) => {
   switch (action.type) {
-    case GET_PLAYER:
-      return action.payload.data;
-    case GET_PLAYERS:
-      return { ...state, ..._.mapKeys(action.payload.data, "id") };
+    case GET_PLAYER_STAT:
+      let avg = {};
+      action.payload.data.forEach(player => {
+        // const playerStats = {};
+        avg[player.player.id] = player.player;
+      });
+      return Object.assign({}, state, avg);
     default:
       return state;
   }

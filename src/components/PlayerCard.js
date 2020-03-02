@@ -70,7 +70,7 @@ class PlayerCard extends React.Component {
   };
 
   render() {
-    console.log(this.props.average);
+    console.log(this.props.stats);
     if (!this.props.stats) {
       return (
         <div className="ui container">
