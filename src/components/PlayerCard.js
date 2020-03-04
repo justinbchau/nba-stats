@@ -1,4 +1,5 @@
 import React from "react";
+import styled, { keyframes } from "styled-components";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -9,14 +10,32 @@ import {
   getPlayerStat
 } from "../actions";
 
-// import Modal from "./Modal";
 import PlayerSearch from "./PlayerSearch";
+
+const Title = styled.h1`
+  font-size: 2.5em;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px black;
+`;
+
+const fadeIn = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`;
+const Fade = styled.div`
+  animation: ${fadeIn} 1s ease-in;
+`;
 
 class PlayerCard extends React.Component {
   componentDidMount() {
     this.props.getStats();
 
-    // this.props.getPlayers();
+    this.props.getPlayers();
   }
 
   //Loops through Stats Object and lists out players and their stats into a card
@@ -27,7 +46,7 @@ class PlayerCard extends React.Component {
           <div className="ui link raised card">
             <div className="content">
               <div className="header">
-                {stat.player.first_name} {stat.player.last_name} -{" "}
+                {stat.player.first_name} {stat.player.last_name} |{" "}
                 {stat.player.position}
               </div>
               <div className="ui inverted divider"></div>
@@ -61,16 +80,15 @@ class PlayerCard extends React.Component {
     e.preventDefault();
     let playerName = e.target.value;
     this.props.getPlayer(playerName);
+    this.onSubmit(playerName);
   };
 
-  onSubmit = e => {
-    e.preventDefault();
-    let player = this.props.getPlayer(e.target.value);
-    console.log("Player: " + player);
+  onSubmit = player => {
+    console.log(player);
   };
 
   render() {
-    console.log(this.props.stats);
+    console.log(this.props.search);
     if (!this.props.stats) {
       return (
         <div className="ui container">
@@ -82,24 +100,27 @@ class PlayerCard extends React.Component {
       );
     }
     return (
-      <div>
-        <PlayerSearch
-          placeholder="Search for a player"
-          onSearch={this.onSearch}
-          onSubmit={this.onSubmit}
-        />
+      <Fade>
+        <div>
+          <PlayerSearch
+            placeholder="Search for a player"
+            onSearch={this.onSearch}
+            onSubmit={this.onSubmit}
+            players={this.props.search}
+          />
 
-        <h2>Players</h2>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr 1fr",
-            gridColumnGap: "30px"
-          }}
-        >
-          {this.renderStats()}
+          <Title>NBA Players Stats</Title>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr 1fr 1fr",
+              gap: "30px 15px"
+            }}
+          >
+            {this.renderStats()}
+          </div>
         </div>
-      </div>
+      </Fade>
     );
   }
 }
@@ -108,7 +129,8 @@ const mapStatetoProps = state => {
   return {
     players: Object.values(state.players),
     stats: state.stats,
-    average: state.average
+    average: state.average,
+    search: state.search
   };
 };
 

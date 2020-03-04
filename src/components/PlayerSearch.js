@@ -3,33 +3,29 @@ import { connect } from "react-redux";
 import { getPlayer } from "../actions";
 
 const PlayerSearch = ({ placeholder, onSearch, onSubmit, players }) => {
-  console.log(players);
   return (
-    <form onSubmit={onSubmit}>
-      <div
-        style={{
-          marginTop: "10px",
-          display: "grid",
-          gridTemplateColumns: "spacing 1fr spacing",
-          marginLeft: "40px",
-          marginRight: "40px"
-        }}
-        className="ui input focus"
-      >
-        <input
-          type="text"
-          name="search"
-          placeholder={placeholder}
-          onSubmit={onSearch}
-        />
-        <input type="submit" value="Submit" />
-      </div>
-    </form>
+    <div
+      className="ui search"
+      style={{ marginTop: "10px", textAlign: "right" }}
+    >
+      <form onChange={onSearch}>
+        <div className="ui icon input">
+          <input
+            className="prompt"
+            type="text"
+            placeholder={placeholder}
+            onChange={onSearch}
+          />
+          <i className="search icon"></i>
+        </div>
+        <div className={players}></div>
+      </form>
+    </div>
   );
 };
 
 const mapStateToProps = state => {
-  return { players: Object.values(state.players) };
+  return { search: state.search };
 };
 
 export default connect(mapStateToProps, { getPlayer })(PlayerSearch);

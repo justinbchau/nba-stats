@@ -7,7 +7,7 @@ import {
   GET_PLAYER_STAT
 } from "./types";
 
-export const getPlayers = playerId => async dispatch => {
+export const getPlayers = () => async dispatch => {
   const response = await nba.get(
     `/players?page=${Math.floor(Math.random() * 100)}`
   );
@@ -15,8 +15,8 @@ export const getPlayers = playerId => async dispatch => {
   dispatch({ type: GET_PLAYERS, payload: response.data });
 };
 
-export const getPlayer = playerId => async dispatch => {
-  const response = await nba.get(`/players/${playerId}`);
+export const getPlayer = playerName => async dispatch => {
+  const response = await nba.get(`/players?search=${playerName}`);
 
   dispatch({ type: GET_PLAYER, payload: response.data });
 };
