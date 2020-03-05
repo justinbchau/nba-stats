@@ -79,16 +79,16 @@ class PlayerCard extends React.Component {
   onSearch = e => {
     e.preventDefault();
     let playerName = e.target.value;
-    this.props.getPlayer(playerName);
     this.onSubmit(playerName);
   };
 
   onSubmit = player => {
-    console.log(player);
+    this.props.getPlayer(player);
+    this.props.getAverage(player);
   };
 
   render() {
-    console.log(this.props.search);
+    console.log(this.props);
     if (!this.props.stats) {
       return (
         <div className="ui container">
