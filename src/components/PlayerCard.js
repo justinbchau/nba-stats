@@ -78,17 +78,15 @@ class PlayerCard extends React.Component {
   //Returns a Promise with an Object holding the targeted player's stats
   onSearch = e => {
     e.preventDefault();
-    let playerName = e.target.value;
-    this.onSubmit(playerName);
+    this.props.getPlayer(e.target.value);
   };
 
-  onSubmit = player => {
-    this.props.getPlayer(player);
-    this.props.getAverage(player);
-  };
+  // onSubmit = player => {
+  //   let searchedPlayer = this.props.getPlayer(player);
+  //   this.props.getAverage(searchedPlayer);
+  // };
 
   render() {
-    console.log(this.props);
     if (!this.props.stats) {
       return (
         <div className="ui container">
@@ -105,7 +103,7 @@ class PlayerCard extends React.Component {
           <PlayerSearch
             placeholder="Search for a player"
             onSearch={this.onSearch}
-            onSubmit={this.onSubmit}
+            onSubmit={this.onSearch}
             players={this.props.search}
           />
 
