@@ -4,7 +4,9 @@ import {
   GET_PLAYERS,
   GET_STATS,
   GET_AVG,
-  GET_PLAYER_STAT
+  GET_PLAYER_STAT,
+  GET_PAGE,
+  GET_SEARCH
 } from "./types";
 
 export const getPlayers = () => async dispatch => {
@@ -27,6 +29,14 @@ export const getStats = () => async dispatch => {
   dispatch({ type: GET_STATS, payload: response.data });
 };
 
+export const getSearchedStats = playerId => async dispatch => {
+  const response = await nba.get(
+    `/stats?season=2019&player_ids[]=${playerId}&per_page=2`
+  );
+
+  dispatch({ type: GET_SEARCH, payload: response.data });
+};
+
 export const getPlayerStat = playerId => async dispatch => {
   const response = await nba.get(`/stats?player_ids[]=${playerId}`);
 
@@ -39,4 +49,10 @@ export const getAverage = playerId => async dispatch => {
   );
 
   dispatch({ type: GET_AVG, payload: response.data });
+};
+
+export const getPage = page => async dispatch => {
+  const response = await nba.get(`/stats?page=${page}`);
+
+  dispatch({ type: GET_PAGE, payload: response.data });
 };

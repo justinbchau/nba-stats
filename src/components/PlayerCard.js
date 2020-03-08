@@ -2,15 +2,21 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import Modal from "./Modal";
 import {
   getPlayers,
   getPlayer,
   getStats,
   getAverage,
-  getPlayerStat
+  getPlayerStat,
+  getPage,
+  getSearchedStats
 } from "../actions";
+import history from "../history";
 
 import PlayerSearch from "./PlayerSearch";
+import nba from "../apis/nba";
+import axios from "axios";
 
 const Title = styled.h1`
   font-size: 2.5em;
@@ -34,8 +40,7 @@ const Fade = styled.div`
 class PlayerCard extends React.Component {
   componentDidMount() {
     this.props.getStats();
-
-    this.props.getPlayers();
+    // this.props.getPlayers();
   }
 
   //Loops through Stats Object and lists out players and their stats into a card
@@ -81,10 +86,17 @@ class PlayerCard extends React.Component {
     this.props.getPlayer(e.target.value);
   };
 
-  // onSubmit = player => {
-  //   let searchedPlayer = this.props.getPlayer(player);
-  //   this.props.getAverage(searchedPlayer);
-  // };
+  onSubmit = e => {
+    e.preventDefault();
+    let state = this.props.search;
+    state.forEach(id => {
+      if (id === state.id) {
+        return null;
+      }
+      return this.props.getSearchedStats(id);
+      // history.push(`/player/search/`)
+    });
+  };
 
   render() {
     if (!this.props.stats) {
@@ -103,8 +115,8 @@ class PlayerCard extends React.Component {
           <PlayerSearch
             placeholder="Search for a player"
             onSearch={this.onSearch}
-            onSubmit={this.onSearch}
-            players={this.props.search}
+            onSubmit={this.onSubmit}
+            players={this.props.players}
           />
 
           <Title>NBA Players Stats</Title>
@@ -117,6 +129,7 @@ class PlayerCard extends React.Component {
           >
             {this.renderStats()}
           </div>
+          <button>Next Page</button>
         </div>
       </Fade>
     );
@@ -126,9 +139,10 @@ class PlayerCard extends React.Component {
 const mapStatetoProps = state => {
   return {
     players: Object.values(state.players),
-    stats: state.stats,
+    stats: state.stats.data,
     average: state.average,
-    search: state.search
+    search: state.search,
+    pages: state.stats.meta
   };
 };
 
@@ -137,5 +151,7 @@ export default connect(mapStatetoProps, {
   getPlayer,
   getStats,
   getAverage,
-  getPlayerStat
+  getPlayerStat,
+  getPage,
+  getSearchedStats
 })(PlayerCard);
