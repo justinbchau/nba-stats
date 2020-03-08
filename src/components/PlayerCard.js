@@ -2,7 +2,6 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import Modal from "./Modal";
 import {
   getPlayers,
   getPlayer,
@@ -12,11 +11,8 @@ import {
   getPage,
   getSearchedStats
 } from "../actions";
-import history from "../history";
 
 import PlayerSearch from "./PlayerSearch";
-import nba from "../apis/nba";
-import axios from "axios";
 
 const Title = styled.h1`
   font-size: 2.5em;
@@ -88,13 +84,13 @@ class PlayerCard extends React.Component {
 
   onSubmit = e => {
     e.preventDefault();
-    let state = this.props.search;
-    state.forEach(id => {
-      if (id === state.id) {
-        return null;
-      }
+    const state = [...this.props.search];
+
+    let query = "&player_ids[]=";
+    const newArr = state.map(i => query + i);
+    console.log(newArr);
+    newArr.forEach((id, index) => {
       return this.props.getSearchedStats(id);
-      // history.push(`/player/search/`)
     });
   };
 
@@ -129,7 +125,6 @@ class PlayerCard extends React.Component {
           >
             {this.renderStats()}
           </div>
-          <button>Next Page</button>
         </div>
       </Fade>
     );

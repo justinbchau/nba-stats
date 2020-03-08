@@ -24,15 +24,13 @@ export const getPlayer = playerName => async dispatch => {
 };
 
 export const getStats = () => async dispatch => {
-  const response = await nba.get(`/stats`);
+  const response = await nba.get(`/stats?seasons[]=2019`);
 
   dispatch({ type: GET_STATS, payload: response.data });
 };
 
 export const getSearchedStats = playerId => async dispatch => {
-  const response = await nba.get(
-    `/stats?season=2019&player_ids[]=${playerId}&per_page=2`
-  );
+  const response = await nba.get(`/stats?seasons[]=2019${playerId}&per_page=2`);
 
   dispatch({ type: GET_SEARCH, payload: response.data });
 };
