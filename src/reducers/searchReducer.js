@@ -5,7 +5,7 @@ export default (state = {}, action) => {
     case GET_PLAYER:
       return action.payload.data.map(i => i.id);
     case GET_PLAYERS:
-      return action.payload;
+      return action.payload.data;
     default:
       return state;
   }

@@ -8,11 +8,10 @@ import {
   GET_PAGE,
   GET_SEARCH
 } from "./types";
+import history from "../history";
 
 export const getPlayers = () => async dispatch => {
-  const response = await nba.get(
-    `/players?page=${Math.floor(Math.random() * 100)}`
-  );
+  const response = await nba.get(`/players`);
 
   dispatch({ type: GET_PLAYERS, payload: response.data });
 };
@@ -24,13 +23,13 @@ export const getPlayer = playerName => async dispatch => {
 };
 
 export const getStats = () => async dispatch => {
-  const response = await nba.get(`/stats?seasons[]=2019`);
+  const response = await nba.get(`/stats?seasons[]=2019&per_page=24`);
 
   dispatch({ type: GET_STATS, payload: response.data });
 };
 
 export const getSearchedStats = playerId => async dispatch => {
-  const response = await nba.get(`/stats?seasons[]=2019${playerId}&per_page=2`);
+  const response = await nba.get(`/stats?seasons[]=2019${playerId}&per_page=1`);
 
   dispatch({ type: GET_SEARCH, payload: response.data });
 };

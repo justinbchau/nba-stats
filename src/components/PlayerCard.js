@@ -13,6 +13,7 @@ import {
 } from "../actions";
 
 import PlayerSearch from "./PlayerSearch";
+import history from "../history";
 
 const Title = styled.h1`
   font-size: 2.5em;
@@ -36,7 +37,8 @@ const Fade = styled.div`
 class PlayerCard extends React.Component {
   componentDidMount() {
     this.props.getStats();
-    // this.props.getPlayers();
+    this.props.getPlayers();
+    console.log(this.props);
   }
 
   //Loops through Stats Object and lists out players and their stats into a card
@@ -85,13 +87,13 @@ class PlayerCard extends React.Component {
   onSubmit = e => {
     e.preventDefault();
     const state = [...this.props.search];
-
+    if (!state) {
+      return <div>"..loading"</div>;
+    }
     let query = "&player_ids[]=";
     const newArr = state.map(i => query + i);
-    console.log(newArr);
-    newArr.forEach((id, index) => {
-      return this.props.getSearchedStats(id);
-    });
+    const concat = newArr.join("");
+    this.props.getSearchedStats(concat);
   };
 
   render() {
@@ -134,10 +136,11 @@ class PlayerCard extends React.Component {
 const mapStatetoProps = state => {
   return {
     players: Object.values(state.players),
-    stats: state.stats.data,
+    stats: state.stats,
     average: state.average,
     search: state.search,
-    pages: state.stats.meta
+    pages: state.stats.meta,
+    list: state.search
   };
 };
 

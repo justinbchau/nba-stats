@@ -1,4 +1,3 @@
-
 import { GET_PLAYER_STAT } from "../actions/types";
 
 export default (state = [], action) => {

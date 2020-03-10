@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Modal from "./Modal";
 import history from "../history";
-import { getAverage, getStats, getPlayerStat } from "../actions";
+import { getAverage, getStats, getPlayerStat, getPlayer } from "../actions";
 
 class PlayerStats extends React.Component {
   componentDidMount() {
@@ -118,5 +118,6 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps, {
   getAverage,
   getStats,
-  getPlayerStat
+  getPlayerStat,
+  getPlayer
 })(PlayerStats);
