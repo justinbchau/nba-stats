@@ -1,7 +1,7 @@
 
 # NBA Player Stats App
 
-## [Check out the App here](https://mrchaufun.github.io/ToDo-Application/)
+## [Check out the App here](https://mrchaufun.github.io/nba-stats/)
  
 Look up individual Player stats for the 2019-2020 NBA Season!
 
