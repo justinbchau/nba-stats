@@ -139,8 +139,7 @@ const mapStatetoProps = state => {
     stats: state.stats,
     average: state.average,
     search: state.search,
-    pages: state.stats.meta,
-    list: state.search
+    pages: state.stats.meta
   };
 };
 

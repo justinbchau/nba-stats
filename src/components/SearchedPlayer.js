@@ -10,6 +10,8 @@ class SearchedPlayer extends Component {
     this.props.getAverage(this.props.match.params.id);
   }
 
+  //Dont know if I am going to keep this page or not
+  //Will most likely remove since we dont need it
   renderContent = () => {
     return this.props.stats.map(stat => {
       return (
