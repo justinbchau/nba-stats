@@ -38,7 +38,6 @@ class PlayerCard extends React.Component {
   componentDidMount() {
     this.props.getStats();
     this.props.getPlayers();
-    console.log(this.props);
   }
 
   //Loops through Stats Object and lists out players and their stats into a card

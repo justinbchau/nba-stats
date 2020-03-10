@@ -7,7 +7,6 @@ import { getAverage, getStats, getPlayerStat, getPlayer } from "../actions";
 
 class PlayerStats extends React.Component {
   componentDidMount() {
-    console.log(this.props);
     this.props.getAverage(this.props.match.params.id);
     this.props.getPlayerStat(this.props.match.params.id);
   }
