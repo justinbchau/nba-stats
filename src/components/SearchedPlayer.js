@@ -49,7 +49,7 @@ class SearchedPlayer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    search: state.search[ownProps],
+    search: state.search,
     average: state.average,
     stats: state.stats
   };
