@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { GET_STATS, GET_SEARCH } from "../actions/types";
 
 export default (state = [], action) => {
@@ -6,7 +5,7 @@ export default (state = [], action) => {
     case GET_STATS:
       return action.payload.data;
     case GET_SEARCH:
-      return action.payload.data;
+      return action.payload;
     default:
       return state;
   }

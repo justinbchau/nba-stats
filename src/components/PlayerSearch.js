@@ -14,6 +14,7 @@ class PlayerSearch extends React.Component {
             <input
               className="prompt"
               type="text"
+              id="player"
               placeholder={this.props.placeholder}
             />
             <i className="search icon"></i>

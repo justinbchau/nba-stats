@@ -1,7 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import {
   getPlayers,
   getPlayer,
@@ -13,6 +12,7 @@ import {
 } from "../actions";
 
 import PlayerSearch from "./PlayerSearch";
+import PlayerList from "./PlayerList";
 import history from "../history";
 
 const Title = styled.h1`
@@ -35,40 +35,14 @@ const Fade = styled.div`
 `;
 
 class PlayerCard extends React.Component {
+  state = {
+    player: ""
+  };
+
   componentDidMount() {
     this.props.getStats();
     this.props.getPlayers();
   }
-
-  //Loops through Stats Object and lists out players and their stats into a card
-  renderStats = () => {
-    return this.props.stats.map(stat => {
-      return (
-        <div key={stat.player.id}>
-          <div className="ui link raised card">
-            <div className="content">
-              <div className="header">
-                {stat.player.first_name} {stat.player.last_name} |{" "}
-                {stat.player.position}
-              </div>
-              <div className="ui inverted divider"></div>
-              <div className="description">
-                Team: {stat.team.full_name} | {stat.team.abbreviation}
-              </div>
-            </div>
-            <Link to={`/player/stat/${stat.player.id}`}>
-              <div
-                className="ui bottom attached button"
-                onClick={() => this.showStats(stat.player.id)}
-              >
-                Stats
-              </div>
-            </Link>
-          </div>
-        </div>
-      );
-    });
-  };
 
   //onClick will update the state with the targeted player with their playerId
   showStats = stat => {
@@ -81,18 +55,23 @@ class PlayerCard extends React.Component {
   onSearch = e => {
     e.preventDefault();
     this.props.getPlayer(e.target.value);
+    this.setState({
+      [e.target.id]: e.target.value
+    });
   };
 
   onSubmit = e => {
     e.preventDefault();
-    const state = [...this.props.search];
-    if (!state) {
-      return <div>"..loading"</div>;
-    }
-    let query = "&player_ids[]=";
-    const newArr = state.map(i => query + i);
-    const concat = newArr.join("");
-    this.props.getSearchedStats(concat);
+    console.log(this.props);
+    let state = [...this.props.search];
+    let newState = state
+      .map(id => {
+        const query = "&player_ids[]=";
+        return query + id;
+      })
+      .join("");
+    console.log(newState);
+    this.props.getSearchedStats(newState);
   };
 
   render() {
@@ -106,6 +85,9 @@ class PlayerCard extends React.Component {
         </div>
       );
     }
+
+    const { stats } = this.props;
+
     return (
       <Fade>
         <div>
@@ -113,7 +95,6 @@ class PlayerCard extends React.Component {
             placeholder="Search for a player"
             onSearch={this.onSearch}
             onSubmit={this.onSubmit}
-            players={this.props.players}
           />
 
           <Title>NBA Players Stats</Title>
@@ -124,7 +105,7 @@ class PlayerCard extends React.Component {
               gap: "30px 15px"
             }}
           >
-            {this.renderStats()}
+            <PlayerList stats={stats} showStats={this.showStats} />
           </div>
         </div>
       </Fade>
