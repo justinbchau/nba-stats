@@ -5,7 +5,7 @@ export default (state = [], action) => {
     case GET_STATS:
       return action.payload.data;
     case GET_SEARCH:
-      return action.payload;
+      return action.payload.data;
     default:
       return state;
   }

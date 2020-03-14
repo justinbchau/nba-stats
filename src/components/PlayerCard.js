@@ -41,7 +41,7 @@ class PlayerCard extends React.Component {
 
   componentDidMount() {
     this.props.getStats();
-    this.props.getPlayers();
+    // this.props.getPlayers();
   }
 
   //onClick will update the state with the targeted player with their playerId
@@ -63,15 +63,18 @@ class PlayerCard extends React.Component {
   onSubmit = e => {
     e.preventDefault();
     console.log(this.props);
-    let state = [...this.props.search];
-    let newState = state
-      .map(id => {
-        const query = "&player_ids[]=";
-        return query + id;
-      })
-      .join("");
-    console.log(newState);
-    this.props.getSearchedStats(newState);
+    // let state = [...this.props.search];
+    // let newState = state
+    //   .map(id => {
+    //     const query = "&player_ids[]=";
+    //     return query + id;
+    //   })
+    //   .join("");
+    // console.log(newState);
+    // this.props.getSearchedStats(newState);
+    this.props.search.map(id => {
+      return this.props.getSearchedStats(id);
+    });
   };
 
   render() {

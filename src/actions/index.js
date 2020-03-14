@@ -32,22 +32,19 @@ export const getStats = () => async dispatch => {
 //Possibly use a non-async action creator to be called within this action
 //so that it can update the state with a molded object
 export const getSearchedStats = playerId => async dispatch => {
-  let multiCall = [];
+  // let multiCall = [];
 
-  const response = await nba.get(`/stats?seasons[]=2019${playerId}&per_page=1`);
+  const response = await nba.get(
+    `/stats?seasons[]=2019&player_ids[]=${playerId}`
+  );
+  const data = await response.data;
+  console.log(data);
 
-  response.data.data.forEach(i => {
-    return multiCall.push(i);
-  });
+  // const newResponse = await response.data.data.map(i => i);
 
-  console.log(multiCall);
+  // console.log(newResponse);
 
-  // const id = await response.data.data.map(i => i);
-  // let playerFilter = response.data.data.filter(
-  //   (v, i, a) => a.findIndex(t => t.player.id === v.player.id) === i
-  // );
-
-  dispatch({ type: GET_SEARCH, payload: multiCall });
+  dispatch({ type: GET_SEARCH, payload: data });
 };
 
 export const getPlayerStat = playerId => async dispatch => {
