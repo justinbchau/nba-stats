@@ -8,7 +8,7 @@ import { getAverage, getStats, getPlayerStat, getPlayer } from "../actions";
 class PlayerStats extends React.Component {
   componentDidMount() {
     this.props.getAverage(this.props.match.params.id);
-    this.props.getPlayerStat(this.props.match.params.id);
+    //this.props.getPlayerStat(this.props.match.params.id);
   }
 
   // Potentially think about using the componentDidUnmount lifecycle method to help destroy the piece of state as we click on more players

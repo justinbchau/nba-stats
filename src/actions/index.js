@@ -1,4 +1,5 @@
 import nba from "../apis/nba";
+import { normalize, schema } from "normalizr";
 import {
   GET_PLAYER,
   GET_PLAYERS,
@@ -11,40 +12,40 @@ import {
 // import history from "../history";
 
 export const getPlayers = () => async dispatch => {
-  const response = await nba.get(`/players`);
+  const response = await nba.get(`/players?per_page=24&page=128`);
 
   dispatch({ type: GET_PLAYERS, payload: response.data });
 };
 
 export const getPlayer = playerName => async dispatch => {
-  const response = await nba.get(`/players?search=${playerName}`);
-  console.log(response.data.data);
+  const response = await nba.get(`/players?search=${playerName}&per_page=24`);
 
   dispatch({ type: GET_PLAYER, payload: response.data });
 };
 
 export const getStats = () => async dispatch => {
-  const response = await nba.get(`/stats?seasons[]=2019&per_page=24`);
+  const response = await nba.get(`/stats?seasons[]=2019`);
 
-  dispatch({ type: GET_STATS, payload: response.data });
+  const playerSchema = new schema.Entity("player");
+  const playersArray = new schema.Array({
+    players: playerSchema
+  });
+
+  const normalizedData = normalize(response.data.data, playersArray);
+
+  console.log(normalizedData);
+
+  dispatch({ type: GET_STATS, payload: normalizedData });
 };
 
 //Possibly use a non-async action creator to be called within this action
 //so that it can update the state with a molded object
-export const getSearchedStats = playerId => async dispatch => {
-  // let multiCall = [];
-
+export const getSearchedStats = playerId => async (dispatch, getState) => {
   const response = await nba.get(
     `/stats?seasons[]=2019&player_ids[]=${playerId}`
   );
-  const data = await response.data;
-  console.log(data);
 
-  // const newResponse = await response.data.data.map(i => i);
-
-  // console.log(newResponse);
-
-  dispatch({ type: GET_SEARCH, payload: data });
+  dispatch({ type: GET_SEARCH, payload: response.data });
 };
 
 export const getPlayerStat = playerId => async dispatch => {

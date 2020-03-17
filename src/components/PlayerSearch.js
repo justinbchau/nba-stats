@@ -1,6 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
-import { getPlayer, getAverage, getPlayers } from "../actions";
 
 class PlayerSearch extends React.Component {
   render() {
@@ -25,10 +23,4 @@ class PlayerSearch extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return { search: state.search, average: state.average };
-};
-
-export default connect(mapStateToProps, { getPlayer, getAverage, getPlayers })(
-  PlayerSearch
-);
+export default PlayerSearch;

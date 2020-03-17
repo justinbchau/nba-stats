@@ -15,6 +15,7 @@ import PlayerSearch from "./PlayerSearch";
 import PlayerList from "./PlayerList";
 import history from "../history";
 
+// Styled Components
 const Title = styled.h1`
   font-size: 2.5em;
   text-align: center;
@@ -34,6 +35,7 @@ const Fade = styled.div`
   animation: ${fadeIn} 1s ease-in;
 `;
 
+// PlayerCard Component
 class PlayerCard extends React.Component {
   state = {
     player: ""
@@ -41,7 +43,7 @@ class PlayerCard extends React.Component {
 
   componentDidMount() {
     this.props.getStats();
-    // this.props.getPlayers();
+    this.props.getPlayers();
   }
 
   //onClick will update the state with the targeted player with their playerId
@@ -62,19 +64,19 @@ class PlayerCard extends React.Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.props);
-    // let state = [...this.props.search];
-    // let newState = state
-    //   .map(id => {
-    //     const query = "&player_ids[]=";
-    //     return query + id;
-    //   })
-    //   .join("");
-    // console.log(newState);
-    // this.props.getSearchedStats(newState);
-    this.props.search.map(id => {
-      return this.props.getSearchedStats(id);
-    });
+    // let ids = [...this.props.search];
+    // const newStats = ids.map(i => {
+    //   return this.props.getSearchedStats(i);
+    // });
+    // return newStats;
+    this.props.getSearchedStats(this.props.search);
+    // let newSearch = this.props.search;
+    // newSearch.forEach(id => {
+    //   if (id === newSearch.id) {
+    //     return null;
+    //   }
+    //   return this.props.getSearchedStats(id);
+    // });
   };
 
   render() {
@@ -89,7 +91,7 @@ class PlayerCard extends React.Component {
       );
     }
 
-    const { stats } = this.props;
+    const { search } = this.props;
 
     return (
       <Fade>
@@ -108,7 +110,7 @@ class PlayerCard extends React.Component {
               gap: "30px 15px"
             }}
           >
-            <PlayerList stats={stats} showStats={this.showStats} />
+            <PlayerList stats={search} showStats={this.showStats} />
           </div>
         </div>
       </Fade>
