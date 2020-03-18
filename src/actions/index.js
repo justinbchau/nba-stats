@@ -33,8 +33,6 @@ export const getStats = () => async dispatch => {
 
   const normalizedData = normalize(response.data.data, playersArray);
 
-  console.log(normalizedData);
-
   dispatch({ type: GET_STATS, payload: normalizedData });
 };
 

@@ -5,7 +5,6 @@ export default (state = [], action) => {
     case GET_PLAYERS:
       return action.payload.data;
     case GET_PLAYER:
-      console.log("getting player");
       return action.payload.data.map(i => i);
     default:
       return state;
