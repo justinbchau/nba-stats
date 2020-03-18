@@ -56,27 +56,15 @@ class PlayerCard extends React.Component {
   //Returns a Promise with an Object holding the targeted player's stats
   onSearch = e => {
     e.preventDefault();
-    this.props.getPlayer(e.target.value);
     this.setState({
       [e.target.id]: e.target.value
     });
+    console.log(this.state);
   };
 
   onSubmit = e => {
     e.preventDefault();
-    // let ids = [...this.props.search];
-    // const newStats = ids.map(i => {
-    //   return this.props.getSearchedStats(i);
-    // });
-    // return newStats;
-    this.props.getSearchedStats(this.props.search);
-    // let newSearch = this.props.search;
-    // newSearch.forEach(id => {
-    //   if (id === newSearch.id) {
-    //     return null;
-    //   }
-    //   return this.props.getSearchedStats(id);
-    // });
+    this.props.getPlayer(this.state.player);
   };
 
   render() {
