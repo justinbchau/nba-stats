@@ -10,4 +10,10 @@ Also include their first and last name for examaple, Chris Paul, Rajon Rondo, St
 
 I will be adding a filter feature so you can sort by Team or Position in the future!
 
-### I know it is very buggy right now. Still in the process of smoothing things out
+##Built with:
+- React
+- React-Router
+- Redux
+- Redux-Thunk
+- Styled-Components
+
