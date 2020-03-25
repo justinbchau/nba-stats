@@ -1,29 +1,30 @@
 import React from "react";
-
 import { Link } from "react-router-dom";
-const PlayerList = ({ stats, showStats }) => {
-  if (!stats) {
-    return <div>...Loading</div>;
+import Loader from "./Loader";
+
+const PlayerList = ({ players, showStats }) => {
+  if (!players) {
+    return <Loader />;
   } else {
     return (
-      stats &&
-      stats.map(stat => {
+      players &&
+      players.map(player => {
         return (
-          <div key={stat.id}>
+          <div key={player.id}>
             <div className="ui link raised card">
               <div className="content">
                 <div className="header">
-                  {stat.first_name} {stat.last_name} | {stat.position}
+                  {player.first_name} {player.last_name} | {player.position}
                 </div>
                 <div className="ui inverted divider"></div>
                 <div className="description">
-                  Team: {stat.team.full_name} | {stat.team.abbreviation}
+                  Team: {player.team.full_name} | {player.team.abbreviation}
                 </div>
               </div>
-              <Link to={`/player/stat/${stat.id}`}>
+              <Link to={`/player/stat/${player.id}`}>
                 <div
                   className="ui bottom attached button"
-                  onClick={() => showStats(stat.id)}
+                  onClick={() => showStats(player.id)}
                 >
                   Stats
                 </div>

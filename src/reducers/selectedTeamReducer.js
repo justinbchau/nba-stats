@@ -1,9 +1,9 @@
-import { GET_PAGE } from "../actions/types";
+import { GET_TEAM } from "../actions/types";
 
 export default (state = {}, action) => {
   switch (action.type) {
-    case GET_PAGE:
-      return action.payload.meta;
+    case GET_TEAM:
+      return action.payload;
     default:
       return state;
   }

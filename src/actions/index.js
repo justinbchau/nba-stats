@@ -7,20 +7,81 @@ import {
   GET_AVG,
   GET_PLAYER_STAT,
   GET_PAGE,
-  GET_SEARCH
+  GET_SEARCH,
+  GET_TEAMS,
+  GET_TEAM,
+  FILTER_PLAYERS,
+  CHANGE_PAGE
 } from "./types";
 // import history from "../history";
 
 export const getPlayers = () => async dispatch => {
-  const response = await nba.get(`/players?per_page=24&page=128`);
+  const response = await nba.get(`/players?per_page=24`);
 
-  dispatch({ type: GET_PLAYERS, payload: response.data });
+  dispatch({
+    type: GET_PLAYERS,
+    payload: {
+      players: response.data.data,
+      pages: response.data.meta
+    }
+  });
 };
 
 export const getPlayer = playerName => async dispatch => {
   const response = await nba.get(`/players?search=${playerName}&per_page=24`);
 
-  dispatch({ type: GET_PLAYER, payload: response.data });
+  dispatch({
+    type: GET_PLAYER,
+    payload: {
+      players: response.data.data,
+      pages: response.data.meta
+    }
+  });
+};
+
+export const changePage = (pageNumber = 1) => async dispatch => {
+  const response = await nba.get(`/players?per_page=24&page=${pageNumber}`);
+
+  dispatch({
+    type: CHANGE_PAGE,
+    payload: {
+      players: response.data.data,
+      pages: response.data.meta
+    }
+  });
+};
+
+export const getTeams = () => async dispatch => {
+  const response = await nba.get(`/teams`);
+
+  dispatch({ type: GET_TEAMS, payload: response.data });
+};
+
+export const getTeam = id => async (dispatch, getState) => {
+  const response = await nba.get(`/teams/${id}`);
+
+  dispatch({
+    type: GET_TEAM,
+    payload: {
+      id: response.data.id,
+      teamName: response.data.full_name
+    }
+  });
+};
+
+export const filterPlayersByTeam = () => async (dispatch, getState) => {
+  const playerList = getState();
+
+  console.log(playerList);
+  // const selectedTeam = getTeam(teamId);
+
+  const { id } = getState().teams;
+
+  const filteredPlayers = playerList.filter(player => {
+    return player.team.id === id;
+  });
+
+  dispatch({ type: FILTER_PLAYERS, payload: filteredPlayers });
 };
 
 export const getStats = () => async dispatch => {

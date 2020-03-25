@@ -98,7 +98,7 @@ class PlayerStats extends React.Component {
     return (
       <Modal
         title={this.renderTitle()}
-        onDismiss={() => history.push("/")}
+        onDismiss={() => history.goBack()}
         content={this.renderContent()}
         actions={this.renderActions()}
       />

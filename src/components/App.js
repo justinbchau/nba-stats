@@ -4,7 +4,6 @@ import PlayerCard from "./PlayerCard";
 import PlayerStats from "./PlayerStats";
 import "../styles/index.css";
 import history from "../history";
-import SearchedPlayer from "./SearchedPlayer";
 
 const App = () => {
   return (
@@ -13,11 +12,6 @@ const App = () => {
         <Switch>
           <Route path="/" exact component={PlayerCard} />
           <Route path="/player/stat/:id" exact component={PlayerStats} />
-          <Route
-            path="/player/search/?player_id[]=:id"
-            exact
-            component={SearchedPlayer}
-          />
         </Switch>
       </Router>
     </div>

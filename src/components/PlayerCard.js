@@ -8,12 +8,20 @@ import {
   getAverage,
   getPlayerStat,
   getPage,
-  getSearchedStats
+  getSearchedStats,
+  getTeams,
+  getTeam,
+  filterPlayersByTeam
 } from "../actions";
 
 import PlayerSearch from "./PlayerSearch";
 import PlayerList from "./PlayerList";
-import history from "../history";
+// import history from "../history";
+import TeamSelect from "./TeamSelect";
+import SelectedTeam from "./SelectedTeam";
+import Loader from "./Loader";
+import TeamPicker from "./TeamPicker";
+import Pagination from "./Pagination";
 
 // Styled Components
 const Title = styled.h1`
@@ -38,12 +46,14 @@ const Fade = styled.div`
 // PlayerCard Component
 class PlayerCard extends React.Component {
   state = {
-    player: ""
+    player: "",
+    teamId: null
   };
 
   componentDidMount() {
-    this.props.getStats();
     this.props.getPlayers();
+    this.props.getTeams();
+    this.props.getStats();
   }
 
   //onClick will update the state with the targeted player with their playerId
@@ -57,9 +67,8 @@ class PlayerCard extends React.Component {
   onSearch = e => {
     e.preventDefault();
     this.setState({
-      [e.target.id]: e.target.value
+      player: e.target.value
     });
-    console.log(this.state);
   };
 
   onSubmit = e => {
@@ -67,19 +76,20 @@ class PlayerCard extends React.Component {
     this.props.getPlayer(this.state.player);
   };
 
+  setSelectedTeam = e => {
+    e.preventDefault();
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+    this.props.getTeam(e.target.value);
+  };
+
   render() {
-    if (!this.props.stats) {
-      return (
-        <div className="ui container">
-          <p></p>
-          <div className="ui active dimmer">
-            <div className="ui loader"></div>
-          </div>
-        </div>
-      );
+    if (!this.props.search) {
+      return <Loader />;
     }
 
-    const { search } = this.props;
+    const { search, teams } = this.props;
 
     return (
       <Fade>
@@ -89,7 +99,10 @@ class PlayerCard extends React.Component {
             onSearch={this.onSearch}
             onSubmit={this.onSubmit}
           />
-
+          {/* <TeamSelect teams={teams} setSelectedTeam={this.setSelectedTeam} /> */}
+          {/*  */}
+          {/* <SelectedTeam /> */}
+          {/* <TeamPicker /> */}
           <Title>NBA Players Stats</Title>
           <div
             style={{
@@ -98,7 +111,8 @@ class PlayerCard extends React.Component {
               gap: "30px 15px"
             }}
           >
-            <PlayerList stats={search} showStats={this.showStats} />
+            <PlayerList players={search.players} showStats={this.showStats} />
+            <Pagination pages={search.pages} />
           </div>
         </div>
       </Fade>
@@ -112,7 +126,8 @@ const mapStatetoProps = state => {
     stats: state.stats,
     average: state.average,
     search: state.search,
-    pages: state.stats.meta
+    teams: state.teams,
+    selectedTeam: state.selectedTeam
   };
 };
 
@@ -123,5 +138,8 @@ export default connect(mapStatetoProps, {
   getAverage,
   getPlayerStat,
   getPage,
-  getSearchedStats
+  getSearchedStats,
+  getTeams,
+  getTeam,
+  filterPlayersByTeam
 })(PlayerCard);

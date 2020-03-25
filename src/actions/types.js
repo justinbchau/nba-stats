@@ -5,3 +5,7 @@ export const GET_AVG = "GET_AVG";
 export const GET_PLAYER_STAT = "GET_PLAYER_STAT";
 export const GET_PAGE = "GET_PAGE";
 export const GET_SEARCH = "GET_SEARCH";
+export const GET_TEAMS = "GET_TEAMS";
+export const GET_TEAM = "GET_TEAM";
+export const FILTER_PLAYERS = "FILTER_PLAYERS";
+export const CHANGE_PAGE = "CHANGE_PAGE";
