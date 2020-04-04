@@ -14,6 +14,8 @@ import {
   filterPlayersByTeam
 } from "../actions";
 
+import { Link, Redirect } from "react-router-dom";
+
 import PlayerSearch from "./PlayerSearch";
 import PlayerList from "./PlayerList";
 // import history from "../history";
@@ -25,12 +27,30 @@ import Pagination from "./Pagination";
 
 // Styled Components
 const Title = styled.h1`
-  font-size: 2.5em;
+  font-size: 3em;
   text-align: center;
   color: white;
   text-shadow: 2px 2px black;
+  margin-bottom: 3rem;
 `;
 
+const SearchWrapper = styled.div`
+  display: grid;
+  grid-template-rows: 5rem;
+  grid-row: 1 / -1;
+  justify-content: end;
+`;
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 30px 10px;
+`;
+
+const Footer = styled.footer`
+  position: fixed;
+  bottom: 4rem;
+`;
 const fadeIn = keyframes`
     from {
         opacity: 0;
@@ -49,12 +69,6 @@ class PlayerCard extends React.Component {
     player: "",
     teamId: null
   };
-
-  componentDidMount() {
-    this.props.getPlayers();
-    this.props.getTeams();
-    this.props.getStats();
-  }
 
   //onClick will update the state with the targeted player with their playerId
   showStats = stat => {
@@ -81,46 +95,59 @@ class PlayerCard extends React.Component {
     this.setState({
       [e.target.id]: e.target.value
     });
-    this.props.getTeam(e.target.value);
+    const selectedId = e.target.value;
+    this.props.getTeam(selectedId);
+    this.props.filterPlayersByTeam(selectedId);
   };
 
   render() {
     if (!this.props.search) {
-      return <Loader />;
+      return <Redirect to="/" />;
     }
 
     const { search, teams } = this.props;
 
     return (
-      <Fade>
-        <div>
-          <PlayerSearch
-            placeholder="Search for a player"
-            onSearch={this.onSearch}
-            onSubmit={this.onSubmit}
-          />
-          {/* <TeamSelect teams={teams} setSelectedTeam={this.setSelectedTeam} /> */}
-          {/*  */}
-          {/* <SelectedTeam /> */}
-          {/* <TeamPicker /> */}
-          <Title>NBA Players Stats</Title>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr 1fr",
-              gap: "30px 15px"
-            }}
-          >
-            <PlayerList players={search.players} showStats={this.showStats} />
-            <Pagination pages={search.pages} />
+      <>
+        <Fade>
+          <div>
+            <SearchWrapper>
+              <PlayerSearch
+                placeholder="Search for a player"
+                onSearch={this.onSearch}
+                onSubmit={this.onSubmit}
+              />
+            </SearchWrapper>
+            {/* <TeamSelect teams={teams} setSelectedTeam={this.setSelectedTeam} /> */}
+            {/*  */}
+            {/* <SelectedTeam /> */}
+            {/* <TeamPicker /> */}
+
+            <Title>
+              <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+                NBA Players Stats
+              </Link>
+            </Title>
+            <Grid
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr 1fr",
+                gap: "30px 15px"
+              }}
+            >
+              <PlayerList players={search.players} showStats={this.showStats} />
+              <Footer>
+                <Pagination pages={search.pages} player={search.players} />
+              </Footer>
+            </Grid>
           </div>
-        </div>
-      </Fade>
+        </Fade>
+      </>
     );
   }
 }
 
-const mapStatetoProps = state => {
+const mapStatetoProps = (state, ownProps) => {
   return {
     players: Object.values(state.players),
     stats: state.stats,

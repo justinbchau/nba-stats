@@ -76,12 +76,16 @@ class PlayerStats extends React.Component {
   renderActions() {
     return (
       <React.Fragment>
-        <Link to="/" className="ui button negative">
+        <button onClick={this.handleClick} className="ui button negative">
           Close
-        </Link>
+        </button>
       </React.Fragment>
     );
   }
+
+  handleClick = () => {
+    return history.goBack();
+  };
 
   render() {
     if (!this.props.average) {
