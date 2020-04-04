@@ -1,14 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+
 import Modal from "./Modal";
 import history from "../history";
 import { getAverage, getStats, getPlayerStat, getPlayer } from "../actions";
 
 class PlayerStats extends React.Component {
+  state = {
+    showError: false
+  };
+
   componentDidMount() {
     this.props.getAverage(this.props.match.params.id);
-    //this.props.getPlayerStat(this.props.match.params.id);
+    setTimeout(() => {
+      if (!this.props.average.length) {
+        this.setState({ showError: true });
+      }
+    }, 500);
   }
 
   // Potentially think about using the componentDidUnmount lifecycle method to help destroy the piece of state as we click on more players
@@ -28,8 +36,15 @@ class PlayerStats extends React.Component {
 
   // Renders all content into the modal showing as a table
   renderContent = () => {
-    if (!this.props.player) {
-      return "Loading Stats";
+    if (this.state.showError) {
+      return (
+        <h1>
+          Player is inactive or retired{" "}
+          <span role="img" aria-label="emoji">
+            😞
+          </span>
+        </h1>
+      );
     } else {
       return this.props.average.map(avg => {
         return (
