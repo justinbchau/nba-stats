@@ -1,10 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Loader from "./Loader";
 
 const PlayerList = ({ players, showStats }) => {
   if (!players) {
-    return <Loader />;
+    return <Redirect to="/" />;
   } else {
     return (
       players &&

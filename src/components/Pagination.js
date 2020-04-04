@@ -1,17 +1,21 @@
 import React from "react";
 import Loader from "./Loader";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { changePage } from "../actions/index";
 import styled from "styled-components";
+import store from "../store/index";
 
 const Div = styled.div`
-  display: flex;
+  display: grid;
   align-items: center;
   justify-content: space-between;
+  margin-top: 4rem;
 `;
 
 const Pagination = ({ pages, changePage }) => {
+  const state = store.getState();
+
+  const { playerName } = state.search;
   if (!pages) {
     return <Loader />;
   }
@@ -22,21 +26,21 @@ const Pagination = ({ pages, changePage }) => {
 
   if (pages.current_page < pages.total_pages && pages.current_page === 1) {
     return (
-      <div>
+      <Div>
         <button
-          onClick={() => changePage(pages.current_page + 1)}
+          onClick={() => changePage(playerName, pages.current_page + 1)}
           className="ui right labeled icon button"
         >
           Page {pages.current_page + 1}
           <i className="right chevron icon"></i>
         </button>
-      </div>
+      </Div>
     );
   } else if (pages.current_page < pages.total_pages) {
     return (
       <Div>
         <button
-          onClick={() => changePage(pages.current_page - 1)}
+          onClick={() => changePage(playerName, pages.current_page - 1)}
           className="ui labeled icon button"
         >
           <i className="left chevron icon"></i>
@@ -44,7 +48,7 @@ const Pagination = ({ pages, changePage }) => {
         </button>
         <br />
         <button
-          onClick={() => changePage(pages.current_page + 1)}
+          onClick={() => changePage(playerName, pages.current_page + 1)}
           className="ui right labeled icon button"
         >
           Page {pages.current_page + 1}
@@ -56,7 +60,7 @@ const Pagination = ({ pages, changePage }) => {
     return (
       <Div>
         <button
-          onClick={() => changePage(pages.current_page - 1)}
+          onClick={() => changePage(playerName, pages.current_page - 1)}
           className="ui labeled icon button"
         >
           <i className="left chevron icon"></i>
@@ -67,4 +71,10 @@ const Pagination = ({ pages, changePage }) => {
   }
 };
 
-export default connect(null, { changePage })(Pagination);
+const mapStateToProps = state => {
+  return {
+    search: state.search
+  };
+};
+
+export default connect(mapStateToProps, { changePage })(Pagination);

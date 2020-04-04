@@ -1,12 +1,10 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 class PlayerSearch extends React.Component {
   render() {
     return (
-      <div
-        className="ui search"
-        style={{ marginTop: "10px", textAlign: "right" }}
-      >
+      <div className="ui fluid search" style={{ margin: "auto" }}>
         <form onSubmit={this.props.onSubmit} onChange={this.props.onSearch}>
           <div className="ui icon input">
             <input
@@ -23,4 +21,4 @@ class PlayerSearch extends React.Component {
   }
 }
 
-export default PlayerSearch;
+export default withRouter(PlayerSearch);

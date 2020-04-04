@@ -13,7 +13,6 @@ import {
   FILTER_PLAYERS,
   CHANGE_PAGE
 } from "./types";
-// import history from "../history";
 
 export const getPlayers = () => async dispatch => {
   const response = await nba.get(`/players?per_page=24`);
@@ -34,19 +33,23 @@ export const getPlayer = playerName => async dispatch => {
     type: GET_PLAYER,
     payload: {
       players: response.data.data,
-      pages: response.data.meta
+      pages: response.data.meta,
+      playerName
     }
   });
 };
 
-export const changePage = (pageNumber = 1) => async dispatch => {
-  const response = await nba.get(`/players?per_page=24&page=${pageNumber}`);
+export const changePage = (playerName, pageNumber = 1) => async dispatch => {
+  const response = await nba.get(
+    `/players?search=${playerName}&page=${pageNumber}&per_page=24`
+  );
 
   dispatch({
     type: CHANGE_PAGE,
     payload: {
       players: response.data.data,
-      pages: response.data.meta
+      pages: response.data.meta,
+      playerName
     }
   });
 };
@@ -69,19 +72,20 @@ export const getTeam = id => async (dispatch, getState) => {
   });
 };
 
-export const filterPlayersByTeam = () => async (dispatch, getState) => {
-  const playerList = getState();
+export const filterPlayersByTeam = teamSelected => async (
+  dispatch,
+  getState
+) => {
+  const { id } = getState().selectedTeam;
+  if (!id) {
+    return null;
+  }
 
-  console.log(playerList);
-  // const selectedTeam = getTeam(teamId);
+  console.log(Number(teamSelected));
 
-  const { id } = getState().teams;
+  console.log(id);
 
-  const filteredPlayers = playerList.filter(player => {
-    return player.team.id === id;
-  });
-
-  dispatch({ type: FILTER_PLAYERS, payload: filteredPlayers });
+  dispatch({ type: FILTER_PLAYERS, payload: id });
 };
 
 export const getStats = () => async dispatch => {

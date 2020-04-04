@@ -12,7 +12,7 @@ export default (state = [], action) => {
     case GET_PLAYER:
       return action.payload;
     case FILTER_PLAYERS:
-      return action.payload;
+      return { ...state, ...action.payload };
     case CHANGE_PAGE:
       return action.payload;
     default:
