@@ -1,0 +1,16 @@
+form {
+    text-align: center;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    outline: none;
+    font-family: inherit;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 5px;
+}
+
+input:valid {
+    border-color: #23cf90;
+}

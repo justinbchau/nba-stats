@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
-import Loader from "./Loader";
+import '../styles/playerCard.css'
 
 const PlayerList = ({ players, showStats }) => {
   if (!players) {
@@ -10,27 +10,22 @@ const PlayerList = ({ players, showStats }) => {
       players &&
       players.map(player => {
         return (
-          <div key={player.id}>
-            <div className="ui link raised card">
-              <div className="content">
-                <div className="header">
-                  {player.first_name} {player.last_name} | {player.position}
-                </div>
-                <div className="ui inverted divider"></div>
+            <div key={player.id} className="playerCard">
+                <h2 className="header">
+                  {player.first_name} {player.last_name}
+                  {player.position ? ' | ' + player.position : ''}
+                  {/* Not Showing | if there is no position available */}
+                </h2>
+                <hr/>
                 <div className="description">
                   Team: {player.team.full_name} | {player.team.abbreviation}
                 </div>
-              </div>
-              <Link to={`/player/stat/${player.id}`}>
-                <div
-                  className="ui bottom attached button"
-                  onClick={() => showStats(player.id)}
-                >
-                  Stats
-                </div>
-              </Link>
+                <Link to={`/player/stat/${player.id}`}>
+                <button class="stat">
+                  Stat
+                </button>
+                </Link>
             </div>
-          </div>
         );
       })
     );

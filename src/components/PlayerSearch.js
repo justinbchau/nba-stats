@@ -1,22 +1,20 @@
-import React from "react";
+import React, { Component }from "react";
 import { withRouter } from "react-router-dom";
+import '../styles/PlayerSearch.css'
 
-class PlayerSearch extends React.Component {
+class PlayerSearch extends Component {
   render() {
     return (
-      <div className="ui fluid search" style={{ margin: "auto" }}>
         <form onSubmit={this.props.onSubmit} onChange={this.props.onSearch}>
-          <div className="ui icon input">
             <input
               className="prompt"
               type="text"
               id="player"
               placeholder={this.props.placeholder}
+              pattern='^[\w ]+'
+              required
             />
-            <i className="search icon"></i>
-          </div>
         </form>
-      </div>
     );
   }
 }

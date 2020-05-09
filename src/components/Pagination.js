@@ -6,10 +6,7 @@ import styled from "styled-components";
 import store from "../store/index";
 
 const Div = styled.div`
-  display: grid;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 4rem;
+  
 `;
 
 const Pagination = ({ pages, changePage }) => {
