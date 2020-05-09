@@ -8,7 +8,7 @@ import history from "../history";
 
 const App = () => {
   return (
-    <div className="main">
+    <div className="main center">
       <Router history={history}>
         <Switch>
           <Route path="/" exact component={Main} />

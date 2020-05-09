@@ -11,13 +11,14 @@ html {
 
 body {
   height: 100%;
-  border: 10px solid #e43f5a;
-  font-family: "Roboto", sans-serif;
+  border: 10px solid #275efe;
+  font-family: "Roboto", sans-serif !important;
   padding: 20px;
 }
 
 h1 {
   font-size: 4.5em;
+  font-family: "Roboto", sans-serif !important;
 }
 
 .center {
@@ -25,6 +26,11 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.main {
+  width: 100%;
+  height: 100%;
 }
 
 ::-webkit-scrollbar {

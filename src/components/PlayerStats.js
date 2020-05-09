@@ -22,7 +22,7 @@ class PlayerStats extends React.Component {
   // Potentially think about using the componentDidUnmount lifecycle method to help destroy the piece of state as we click on more players
   renderTitle = () => {
     if (!this.props.player) {
-      return "...Loading";
+      return "Loading...";
     } else {
       return (
         <div className="ui header">
@@ -38,12 +38,12 @@ class PlayerStats extends React.Component {
   renderContent = () => {
     if (this.state.showError) {
       return (
-        <h1>
+        <h2>
           Player is inactive or retired{" "}
           <span role="img" aria-label="emoji">
             😞
           </span>
-        </h1>
+        </h2>
       );
     } else {
       return this.props.average.map(avg => {
