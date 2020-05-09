@@ -11,21 +11,6 @@ import {
 import history from "../history";
 import { Redirect } from "react-router-dom";
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: repeat(3, 1fr);
-  height: 100vh;
-  justify-items: center;
-`;
-
-const Title = styled.h1`
-  font-size: 3.5em;
-  color: white;
-  text-shadow: 2px 2px black;
-  align-self: end;
-`;
-
 class Main extends Component {
   state = {
     player: "",
@@ -57,14 +42,16 @@ class Main extends Component {
 
   render() {
     return (
-      <Grid classname="ui container">
-        <Title>NBA Players Stats</Title>
+      <div classname="search">
+        <h1 style={
+          {marginBottom: "1em"}
+        }>NBA Players Stats</h1>
         <PlayerSearch
-          placeholder="Search for a player"
+          placeholder="Enter player name ..." //Better UX
           onSearch={this.onSearch}
           onSubmit={this.onSubmit}
         />
-      </Grid>
+      </div>
     );
   }
 }

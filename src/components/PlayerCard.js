@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import styled, { keyframes } from "styled-components";
 import { connect } from "react-redux";
 import {
@@ -29,8 +29,6 @@ import Pagination from "./Pagination";
 const Title = styled.h1`
   font-size: 3em;
   text-align: center;
-  color: white;
-  text-shadow: 2px 2px black;
   margin-bottom: 3rem;
 `;
 
@@ -43,7 +41,7 @@ const SearchWrapper = styled.div`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 30px 10px;
 `;
 
@@ -64,7 +62,7 @@ const Fade = styled.div`
 `;
 
 // PlayerCard Component
-class PlayerCard extends React.Component {
+class PlayerCard extends Component {
   state = {
     player: "",
     teamId: null
@@ -131,7 +129,7 @@ class PlayerCard extends React.Component {
             <Grid
               style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr 1fr",
+                gridTemplateColumns: "repeat(4, 1fr)",
                 gap: "30px 15px"
               }}
             >
